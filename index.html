@@ -1,0 +1,939 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Event Management Service</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d82a82;
+        }
+        
+        .logo span {
+            color: #333;
+        }
+        
+        .contact-info {
+            text-align: right;
+        }
+        
+        .contact-info a {
+            color: #d82a82;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #d82a82;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #d82a82;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #b0226d;
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #d82a82;
+            margin-bottom: 15px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .service-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #d82a82;
+        }
+        
+        .service-card p {
+            margin-bottom: 15px;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            font-size: 36px;
+            color: #d82a82;
+            margin-bottom: 20px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Event Types Section */
+        .event-types {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .event-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .event-item {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .event-item h3 {
+            color: #d82a82;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #d82a82;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .contact-details p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-details i {
+            margin-right: 10px;
+            color: #d82a82;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-info {
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 5px 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">LEO <span>Event Management</span></div>
+                <div class="contact-info">
+                    <a href="mailto:spraveen4347@gmail.com"><i class="fas fa-envelope"></i> spraveen4347@gmail.com</a>
+                    <a href="tel:+919360590162"><i class="fas fa-phone-alt"></i> +91 9360590162</a>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Enquiry</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Contact us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Creating Unforgettable Events</h1>
+            <p>Professional event management services in Chennai for all your special occasions</p>
+            <a href="#" class="btn">Get a Quote</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+                <p>We provide comprehensive event management solutions</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Entertainment</h3>
+                    <p>We make you enjoy the event with our entertainment services.</p>
+                    <p>Photo & Video Shoot to make your event wonderful memories.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Cake Arrangement</h3>
+                    <p>We arrange delicious and theme-based birthday cakes.</p>
+                    <p>Goody Bags/Gifts to send off your guests with cheerful gifts.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Balloon Decoration</h3>
+                    <p>Decorate your background with a variety of colorful balloons.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Food Supply</h3>
+                    <p>Chennai Event Management always provides a multi-cuisine menu.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Stage Decoration</h3>
+                    <p>Beautiful and thematic stage decorations for all events.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Complete Event Planning</h3>
+                    <p>From concept to execution, we handle all aspects of your event.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About  Event Management</h2>
+                    <p>LEO Event Management is a professional event planning service dedicated to making your special occasions memorable and stress-free. With years of experience in the industry, we bring creativity, precision, and passion to every event we organize.</p>
+                    <p>Our team of experts handles all aspects of event planning, from venue selection to decorations, catering to entertainment, ensuring a seamless experience for you and your guests.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Event Management Team">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Types Section -->
+    <section class="event-types">
+        <div class="container">
+            <div class="section-title">
+                <h2>Events We Manage</h2>
+                <p>We specialize in a variety of events to suit all your needs</p>
+            </div>
+            <div class="event-list">
+                <div class="event-item">
+                    <h3>Birthday Party</h3>
+                    <p>Birthday Organizer in Chennai</p>
+                </div>
+                <div class="event-item">
+                    <h3>Marriage/Wedding</h3>
+                    <p>Marriage Planner in Chennai</p>
+                </div>
+                <div class="event-item">
+                    <h3>Puberty Function</h3>
+                    <p>Seer Organizer in Chennai</p>
+                </div>
+                <div class="event-item">
+                    <h3>Reception</h3>
+                    <p>Reception Planner in Chennai</p>
+                </div>
+                <div class="event-item">
+                    <h3>Corporate Events</h3>
+                    <p>Inaugurations, Conferences & Seminars</p>
+                </div>
+                <div class="event-item">
+                    <h3>Housewarming</h3>
+                    <p>Housewarming ceremony planning</p>
+                </div>
+                <div class="event-item">
+                    <h3>Stage Events</h3>
+                    <p>Professional stage management</p>
+                </div>
+                <div class="event-item">
+                    <h3>Stage Decoration</h3>
+                    <p>Thematic and beautiful decorations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Our Services</h3>
+                    <ul>
+                        <li><a href="#">Birthday Party Planning</a></li>
+                        <li><a href="#">Wedding Planning</a></li>
+                        <li><a href="#">Corporate Events</a></li>
+                        <li><a href="#">Stage Decorations</a></li>
+                        <li><a href="#">Catering Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <div class="contact-details">
+                        <p><i class="fas fa-map-marker-alt"></i> c/47,G.H road,Bargur</p>
+                        <p><i class="fas fa-phone-alt"></i> +91 9360590162</p>
+                        <p><i class="fas fa-envelope"></i> spraveen4347@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 LEO  Event Management Service. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Event Booking System for LEO Event Management
+document.addEventListener('DOMContentLoaded', function() {
+    // Event Types Data
+    const eventTypes = {
+        'birthday-party': {
+            name: 'Birthday Party',
+            description: 'Birthday Organizer in Chennai',
+            basePrice: 15000,
+            options: [
+                { name: 'Basic Package', price: 15000, includes: ['Venue decoration', 'Cake', 'Photography'] },
+                { name: 'Premium Package', price: 30000, includes: ['Themed decoration', 'Custom cake', 'Professional photography', 'Entertainment'] },
+                { name: 'Deluxe Package', price: 50000, includes: ['Luxury venue', 'Designer cake', 'Videography', 'Live entertainment', 'Catering'] }
+            ]
+        },
+        'corporate-events': {
+            name: 'Corporate Events',
+            description: 'Inaugurations, Conferences & Seminars',
+            basePrice: 50000,
+            options: [
+                { name: 'Conference Package', price: 50000, includes: ['Venue setup', 'Audio-visual equipment', 'Basic catering'] },
+                { name: 'Seminar Package', price: 80000, includes: ['Professional staging', 'Advanced AV setup', 'Premium catering'] },
+                { name: 'Gala Package', price: 150000, includes: ['Luxury venue', 'Full production', 'Gourmet catering', 'Entertainment'] }
+            ]
+        },
+        'marriage-wedding': {
+            name: 'Marriage/Wedding',
+            description: 'Marriage Planner in Chennai',
+            basePrice: 100000,
+            options: [
+                { name: 'Traditional Package', price: 100000, includes: ['Mandap decoration', 'Basic photography', 'Traditional catering'] },
+                { name: 'Premium Wedding', price: 250000, includes: ['Luxury decorations', 'Professional photography/videography', 'Premium catering'] },
+                { name: 'Royal Wedding', price: 500000, includes: ['Designer decorations', 'Cinematic videography', 'Gourmet catering', 'Live entertainment'] }
+            ]
+        },
+        'puberty-function': {
+            name: 'Puberty Function',
+            description: 'Seer Organizer in Chennai',
+            basePrice: 75000,
+            options: [
+                { name: 'Traditional Ceremony', price: 75000, includes: ['Ritual arrangements', 'Basic decoration', 'Traditional catering'] },
+                { name: 'Premium Function', price: 150000, includes: ['Elaborate decorations', 'Professional photography', 'Premium catering'] }
+            ]
+        },
+        'reception': {
+            name: 'Reception',
+            description: 'Reception Planner in Chennai',
+            basePrice: 80000,
+            options: [
+                { name: 'Standard Reception', price: 80000, includes: ['Basic decoration', 'Buffet catering', 'Photography'] },
+                { name: 'Grand Reception', price: 200000, includes: ['Luxury decorations', 'Sit-down dinner', 'Professional photography/videography'] }
+            ]
+        },
+        'housewarming': {
+            name: 'Housewarming',
+            description: 'Housewarming ceremony planning',
+            basePrice: 30000,
+            options: [
+                { name: 'Simple Ceremony', price: 30000, includes: ['Basic pooja arrangements', 'Light decoration', 'Snacks'] },
+                { name: 'Grand Housewarming', price: 80000, includes: ['Elaborate pooja', 'Full decoration', 'Catering'] }
+            ]
+        },
+        'stage-events': {
+            name: 'Stage Events',
+            description: 'Professional stage management',
+            basePrice: 40000,
+            options: [
+                { name: 'Basic Stage', price: 40000, includes: ['Stage setup', 'Basic lighting', 'Sound system'] },
+                { name: 'Professional Stage', price: 100000, includes: ['Custom stage design', 'Professional lighting', 'High-end audio'] }
+            ]
+        },
+        'stage-decoration': {
+            name: 'Stage Decoration',
+            description: 'Thematic and beautiful decorations',
+            basePrice: 25000,
+            options: [
+                { name: 'Standard Decoration', price: 25000, includes: ['Backdrop', 'Basic floral arrangements'] },
+                { name: 'Thematic Decoration', price: 60000, includes: ['Custom theme design', 'Premium floral decor', 'Special effects'] }
+            ]
+        }
+    };
+
+    // DOM Elements
+    const bookingSection = document.createElement('section');
+    bookingSection.id = 'booking';
+    bookingSection.className = 'booking-section';
+    document.querySelector('section.event-types').after(bookingSection);
+
+    // Render Booking Form
+    function renderBookingForm() {
+        bookingSection.innerHTML = `
+            <div class="container">
+                <div class="section-title">
+                    <h2>Book Your Event</h2>
+                    <p>Fill out the form below to reserve your special occasion</p>
+                </div>
+                <form id="event-booking-form" class="booking-form">
+                    <div class="form-group">
+                        <label for="event-type">Event Type</label>
+                        <select id="event-type" name="event-type" required>
+                            <option value="">Select an event type</option>
+                            ${Object.keys(eventTypes).map(key => 
+                                `<option value="${key}">${eventTypes[key].name}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="package">Package</label>
+                        <select id="package" name="package" disabled required>
+                            <option value="">Select event type first</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-date">Event Date</label>
+                        <input type="date" id="event-date" name="event-date" min="${new Date().toISOString().split('T')[0]}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guests">Number of Guests</label>
+                        <input type="number" id="guests" name="guests" min="10" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="special-requests">Special Requests</label>
+                        <textarea id="special-requests" name="special-requests"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn">Book Now</button>
+                    </div>
+                </form>
+                
+                <div id="booking-summary" class="booking-summary" style="display: none;">
+                    <h3>Your Booking Summary</h3>
+                    <div id="summary-content"></div>
+                    <button id="confirm-booking" class="btn">Confirm Booking</button>
+                    <button id="edit-booking" class="btn btn-secondary">Edit Details</button>
+                </div>
+                
+                <div id="booking-confirmation" class="booking-confirmation" style="display: none;">
+                    <h3>Booking Confirmed!</h3>
+                    <p>Thank you for choosing LEO Event Management. We've sent the details to your email.</p>
+                    <p>Our team will contact you within 24 hours to discuss further details.</p>
+                    <button id="new-booking" class="btn">Make Another Booking</button>
+                </div>
+            </div>
+        `;
+
+        // Add event listeners
+        document.getElementById('event-type').addEventListener('change', updatePackageOptions);
+        document.getElementById('event-booking-form').addEventListener('submit', processBookingForm);
+        document.getElementById('confirm-booking')?.addEventListener('click', confirmBooking);
+        document.getElementById('edit-booking')?.addEventListener('click', editBooking);
+        document.getElementById('new-booking')?.addEventListener('click', resetBookingForm);
+    }
+
+    // Update package options based on selected event type
+    function updatePackageOptions() {
+        const eventType = document.getElementById('event-type').value;
+        const packageSelect = document.getElementById('package');
+        
+        packageSelect.innerHTML = '<option value="">Select a package</option>';
+        packageSelect.disabled = !eventType;
+        
+        if (eventType) {
+            eventTypes[eventType].options.forEach((option, index) => {
+                packageSelect.innerHTML += `
+                    <option value="${index}">${option.name} (₹${option.price.toLocaleString()})</option>
+                `;
+            });
+        }
+    }
+
+    // Process booking form submission
+    function processBookingForm(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+        const eventType = formData.get('event-type');
+        const packageIndex = formData.get('package');
+        
+        if (!eventType || !packageIndex) return;
+        
+        const selectedPackage = eventTypes[eventType].options[packageIndex];
+        const totalPrice = calculatePrice(selectedPackage.price, parseInt(formData.get('guests')));
+        
+        // Show booking summary
+        document.getElementById('booking-summary').style.display = 'block';
+        document.getElementById('event-booking-form').style.display = 'none';
+        
+        document.getElementById('summary-content').innerHTML = `
+            <p><strong>Event Type:</strong> ${eventTypes[eventType].name}</p>
+            <p><strong>Package:</strong> ${selectedPackage.name}</p>
+            <p><strong>Includes:</strong> ${selectedPackage.includes.join(', ')}</p>
+            <p><strong>Date:</strong> ${new Date(formData.get('event-date')).toLocaleDateString()}</p>
+            <p><strong>Number of Guests:</strong> ${formData.get('guests')}</p>
+            <p><strong>Total Price:</strong> ₹${totalPrice.toLocaleString()}</p>
+            <p><strong>Contact:</strong> ${formData.get('name')} (${formData.get('email')}, ${formData.get('phone')})</p>
+            ${formData.get('special-requests') ? `<p><strong>Special Requests:</strong> ${formData.get('special-requests')}</p>` : ''}
+        `;
+    }
+
+    // Calculate total price based on package and number of guests
+    function calculatePrice(basePrice, guests) {
+        const baseGuests = 50; // Base price covers first 50 guests
+        const additionalGuestPrice = 500; // Price per additional guest
+        
+        if (guests <= baseGuests) {
+            return basePrice;
+        } else {
+            return basePrice + ((guests - baseGuests) * additionalGuestPrice);
+        }
+    }
+
+    // Confirm booking (simulate server submission)
+    function confirmBooking() {
+        // In a real app, you would send this data to your server
+        document.getElementById('booking-summary').style.display = 'none';
+        document.getElementById('booking-confirmation').style.display = 'block';
+        
+        // You would typically send the data to your server here
+        // For demo purposes, we'll just log it
+        console.log('Booking confirmed!');
+    }
+
+    // Edit booking details
+    function editBooking() {
+        document.getElementById('booking-summary').style.display = 'none';
+        document.getElementById('event-booking-form').style.display = 'block';
+    }
+
+    // Reset booking form
+    function resetBookingForm() {
+        document.getElementById('booking-confirmation').style.display = 'none';
+        document.getElementById('event-booking-form').style.display = 'block';
+        document.getElementById('event-booking-form').reset();
+    }
+
+    // Add CSS for booking section
+    const bookingStyles = document.createElement('style');
+    bookingStyles.textContent = `
+        .booking-section {
+            padding: 80px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .booking-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+        }
+        
+        .booking-summary,
+        .booking-confirmation {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .booking-summary p,
+        .booking-confirmation p {
+            margin-bottom: 10px;
+        }
+        
+        .btn-secondary {
+            background-color: #666;
+            margin-left: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            .booking-form,
+            .booking-summary,
+            .booking-confirmation {
+                padding: 20px;
+            }
+        }
+    `;
+    document.head.appendChild(bookingStyles);
+
+    // Initialize the booking form
+    renderBookingForm();
+});
+// API Service to handle backend communication
+const EventBookingService = {
+    // Create a new booking
+    createBooking: async (bookingData) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to create booking');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error creating booking:', error);
+            throw error;
+        }
+    },
+    
+    // Get all bookings
+    getAllBookings: async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/bookings');
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch bookings');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+            throw error;
+        }
+    },
+    
+    // Update a booking
+    updateBooking: async (id, bookingData) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to update booking');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error updating booking:', error);
+            throw error;
+        }
+    },
+    
+    // Delete a booking
+    deleteBooking: async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+                method: 'DELETE',
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to delete booking');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error deleting booking:', error);
+            throw error;
+        }
+    }
+};
+
+// Modify your existing confirmBooking function to use the API
+async function confirmBooking() {
+    const form = document.getElementById('event-booking-form');
+    const formData = new FormData(form);
+    const eventType = formData.get('event-type');
+    const packageIndex = formData.get('package');
+    
+    if (!eventType || !packageIndex) return;
+    
+    const selectedPackage = eventTypes[eventType].options[packageIndex];
+    const totalPrice = calculatePrice(selectedPackage.price, parseInt(formData.get('guests')));
+    
+    const bookingData = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        eventType: eventTypes[eventType].name,
+        package: selectedPackage.name,
+        eventDate: formData.get('event-date'),
+        guests: parseInt(formData.get('guests')),
+        specialRequests: formData.get('special-requests'),
+        totalPrice: totalPrice,
+        status: 'confirmed'
+    };
+    
+    try {
+        const booking = await EventBookingService.createBooking(bookingData);
+        
+        // Show confirmation
+        document.getElementById('booking-summary').style.display = 'none';
+        document.getElementById('booking-confirmation').style.display = 'block';
+        
+        console.log('Booking created:', booking);
+    } catch (error) {
+        alert('Failed to confirm booking. Please try again.');
+        console.error('Booking error:', error);
+    }
+}
+</script>
+</body>
+</html>
